@@ -1,22 +1,21 @@
 // A component is a funtion with a capital first letter that encapsulates a reusable UI element of the page.
 
 import { useState } from "react"
+import { NewTodoForm } from "./NewTodoForm"
 
 export default function App(){ // you can only return 1 element in a Component
-  const [newItem, setNewItem]=useState("")//whenever state changes, it updates the entire component
   const [todos, setTodos]= useState([])
 
-
-  function handleSubmit(e){
-    e.preventDefault()
+  function addTodo(title){
     setTodos((currentTodos)=>{
       return [
         ...currentTodos,
-        {id:crypto.randomUUID(), title: newItem, completed: false},
+        {id:crypto.randomUUID(), title, completed: false},
       ]
     })
     setNewItem("")
   }
+  
   function toggleTodo(id, completed){
     setTodos(currentTodos=>{
       return currentTodos.map(todo=>{
@@ -35,13 +34,7 @@ export default function App(){ // you can only return 1 element in a Component
   }
   return (
   <>
-  <form onSubmit={handleSubmit} className="new-item-form">
-    <div className="form-row">
-      <label htmlFor="item">New Item</label>
-      <input value={newItem} onChange={e=>setNewItem(e.target.value)} type="text" id="item"/>
-    </div>
-    <button className="btn">Add</button>
-  </form>
+  <NewTodoForm  onSubmit={addTodo}  />
 
   <h1 className="header">ToDo List</h1>
   <ul className="list">
